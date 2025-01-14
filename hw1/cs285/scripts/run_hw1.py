@@ -144,7 +144,8 @@ def run_training_loop(params):
                 # HINT: query the policy (using the get_action function) with paths[i]["observation"]
                 # and replace paths[i]["action"] with these expert labels
                 # paths = TODO
-                paths[itr]["action"] = expert_policy.get_action(paths[itr]["observation"])
+                for path in paths:
+                    path["action"] = expert_policy.get_action(path["observation"])
 
         total_envsteps += envsteps_this_batch
         # add collected data to replay buffer
@@ -165,7 +166,7 @@ def run_training_loop(params):
           
           ob_batch = ptu.from_numpy(ob_batch)
           ac_batch = ptu.from_numpy(ac_batch)
-          
+
           # use the sampled data to train an agent
           train_log = actor.update(ob_batch, ac_batch)
           training_logs.append(train_log)

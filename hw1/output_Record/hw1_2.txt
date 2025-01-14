@@ -1,0 +1,68 @@
+=========================================================================== hw1 4.2 ===========================================================================
+# Base model
+# Base Output: 4789(4789 * 0.3 = 1436)
+python cs285/scripts/run_hw1.py \
+    --expert_policy_file cs285/policies/experts/Ant.pkl \
+    --env_name Ant-v4 --exp_name dagger_ant --n_iter 10 \
+    --do_dagger --expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1
+
+# Output: q2_dagger_ant_Ant-v4_14-01-2025_19-56-10	
+
+# 完成hw1 3.1 & 3.2任务
+# # 达不到专家效果（降低网络深度和宽度，暴力 MLP policy 效果还是很强大）
+# --n_layers 1 --size 8 \
+# Command:
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name dagger_ant --n_iter 10 \
+	--do_dagger --expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1 \
+    --n_layers 1 --size 8 
+
+# Output: q2_dagger_ant_Ant-v4_14-01-2025_20-16-53
+# Last epoch
+Eval_AverageReturn : 4532.35693359375
+Eval_StdReturn : 0.0
+Eval_MaxReturn : 4532.35693359375
+Eval_MinReturn : 4532.35693359375
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 4607.92236328125
+Train_StdReturn : 0.0
+Train_MaxReturn : 4607.92236328125
+Train_MinReturn : 4607.92236328125
+Train_AverageEpLen : 1000.0
+Training Loss : 0.003643955569714308
+Train_EnvstepsSoFar : 9000
+TimeSinceStart : 7.32092022895813
+
+# 从结果看，1轮epoch均值就达到4433，太高了，所以降低网络
+
+# # 达不到专家效果（降低网络深度和宽度，但是dagger在起作用，降低n_iter）
+# --n_layers 1 --size 1 \
+# Command:
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name dagger_ant --n_iter 10 \
+	--do_dagger --expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1 \
+    --n_layers 1 --size 1
+
+# Output: q2_dagger_ant_Ant-v4_14-01-2025_20-21-51
+# Last epoch
+Eval_AverageReturn : 931.2787475585938
+Eval_StdReturn : 0.0
+Eval_MaxReturn : 931.2787475585938
+Eval_MinReturn : 931.2787475585938
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 924.1467895507812
+Train_StdReturn : 0.0
+Train_MaxReturn : 924.1467895507812
+Train_MinReturn : 924.1467895507812
+Train_AverageEpLen : 1000.0
+Training Loss : 0.046330537647008896
+Train_EnvstepsSoFar : 9000
+TimeSinceStart : 7.532618045806885
+
+# 可以
+

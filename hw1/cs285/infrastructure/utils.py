@@ -34,7 +34,7 @@ def sample_trajectory(env, policy, max_path_length, render=False):
     
         # TODO use the most recent ob to decide what to do
         ac = ptu.to_numpy(policy(ptu.from_numpy(ob)[None])) # HINT: this is a numpy array
-        print("ob", ob)
+        # print("ob", ob)
         ac = ac[0]
 
         # TODO: take that action and get reward and next ob

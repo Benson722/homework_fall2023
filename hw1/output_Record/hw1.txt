@@ -1,0 +1,555 @@
+=========================================================================== hw1 3.1 ===========================================================================
+##### 3. Behavioral Cloning #####
+# 运行hw1的原命令
+# 作用：运行 Vanilla 行为克隆，即专家策略，baseline
+# Command:
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1
+
+# Output:
+Eval_AverageReturn : 4789.0869140625
+Eval_StdReturn : 0.0
+Eval_MaxReturn : 4789.0869140625
+Eval_MinReturn : 4789.0869140625
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 4681.891673935816
+Train_StdReturn : 30.70862278765526
+Train_MaxReturn : 4712.600296723471
+Train_MinReturn : 4651.18305114816
+Train_AverageEpLen : 1000.0
+Training Loss : 0.0011749985860660672
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 0.8333015441894531
+Initial_DataCollection_AverageReturn : 4681.891673935816
+
+# 达不到专家效果（降低网络深度和宽度，暴力 MLP policy 效果还是很强大）
+# --n_layers 1 --size 8 \
+# Command:
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1 \
+    --n_layers 1 --size 8 
+
+# Output:（4789×0.3 = 1436.7 > 757.3）
+Eval_AverageReturn : 757.30224609375
+Eval_StdReturn : 0.0
+Eval_MaxReturn : 757.30224609375
+Eval_MinReturn : 757.30224609375
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 4681.891673935816
+Train_StdReturn : 30.70862278765526
+Train_MaxReturn : 4712.600296723471
+Train_MinReturn : 4651.18305114816
+Train_AverageEpLen : 1000.0
+Training Loss : 0.006006673444062471
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 0.7785828113555908
+Initial_DataCollection_AverageReturn : 4681.891673935816
+
+
+
+# 加一个看看 
+# --eval_batch_size 5000 \
+# Command:
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1
+
+# Output:
+Eval_AverageReturn : 4701.3994140625
+Eval_StdReturn : 190.10726928710938
+Eval_MaxReturn : 4864.7177734375
+Eval_MinReturn : 4342.13134765625
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 4681.891673935816
+Train_StdReturn : 30.70862278765526
+Train_MaxReturn : 4712.600296723471
+Train_MinReturn : 4651.18305114816
+Train_AverageEpLen : 1000.0
+Training Loss : 0.0011749985860660672
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 1.660310983657837
+Initial_DataCollection_AverageReturn : 4681.891673935816
+
+# 其他环境：Walker2d
+# MJ_ENV_NAMES = ["Ant-v4", "Walker2d-v4", "HalfCheetah-v4", "Hopper-v4"]
+# Command:
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Walker2d.pkl \
+	--env_name Walker2d-v4 --exp_name bc_Walker2d --n_iter 1 \
+	--expert_data cs285/expert_data/expert_data_Walker2d-v4.pkl \
+	--video_log_freq -1
+
+# Output:
+Eval_AverageReturn : 1124.3851318359375
+Eval_StdReturn : 701.6439208984375
+Eval_MaxReturn : 2322.406005859375
+Eval_MinReturn : 599.50439453125
+Eval_AverageEpLen : 283.5
+Train_AverageReturn : 5383.310325177668
+Train_StdReturn : 54.15251563871789
+Train_MaxReturn : 5437.462840816386
+Train_MinReturn : 5329.1578095389505
+Train_AverageEpLen : 1000.0
+Training Loss : 0.016553986817598343
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 0.7779803276062012
+Initial_DataCollection_AverageReturn : 5383.310325177668
+
+# 加一个看看 
+# --eval_batch_size 5000 \
+# Command:
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Walker2d.pkl \
+	--env_name Walker2d-v4 --exp_name bc_Walker2d --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Walker2d-v4.pkl \
+	--video_log_freq -1
+
+# Output:
+Eval_AverageReturn : 1021.0232543945312
+Eval_StdReturn : 670.6375122070312
+Eval_MaxReturn : 2793.72705078125
+Eval_MinReturn : 277.6547546386719
+Eval_AverageEpLen : 263.6842105263158
+Train_AverageReturn : 5383.310325177668
+Train_StdReturn : 54.15251563871789
+Train_MaxReturn : 5437.462840816386
+Train_MinReturn : 5329.1578095389505
+Train_AverageEpLen : 1000.0
+Training Loss : 0.016553986817598343
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 1.3078632354736328
+Initial_DataCollection_AverageReturn : 5383.310325177668
+
+# 其他环境：HalfCheetah
+# MJ_ENV_NAMES = ["Ant-v4", "Walker2d-v4", "HalfCheetah-v4", "Hopper-v4"]
+# Command:
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/HalfCheetah.pkl \
+	--env_name HalfCheetah-v4 --exp_name bc_HalfCheetah --n_iter 1 \
+	--expert_data cs285/expert_data/expert_data_HalfCheetah-v4.pkl \
+	--video_log_freq -1
+
+# Output:
+Eval_AverageReturn : 3879.2109375
+Eval_StdReturn : 0.0
+Eval_MaxReturn : 3879.2109375
+Eval_MinReturn : 3879.2109375
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 4034.7999834965067
+Train_StdReturn : 32.8677631311341
+Train_MaxReturn : 4067.6677466276406
+Train_MinReturn : 4001.9322203653724
+Train_AverageEpLen : 1000.0
+Training Loss : 0.004244370386004448
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 0.7020008563995361
+Initial_DataCollection_AverageReturn : 4034.7999834965067
+
+# 加一个看看 
+# --eval_batch_size 5000 \
+# Command:
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/HalfCheetah.pkl \
+	--env_name HalfCheetah-v4 --exp_name bc_HalfCheetah --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_HalfCheetah-v4.pkl \
+	--video_log_freq -1
+
+# Output:
+Eval_AverageReturn : 4075.22119140625
+Eval_StdReturn : 109.26313018798828
+Eval_MaxReturn : 4205.53076171875
+Eval_MinReturn : 3879.2109375
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 4034.7999834965067
+Train_StdReturn : 32.8677631311341
+Train_MaxReturn : 4067.6677466276406
+Train_MinReturn : 4001.9322203653724
+Train_AverageEpLen : 1000.0
+Training Loss : 0.004244370386004448
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 1.0327746868133545
+Initial_DataCollection_AverageReturn : 4034.7999834965067
+
+# 其他环境：Hopper
+# MJ_ENV_NAMES = ["Ant-v4", "Walker2d-v4", "HalfCheetah-v4", "Hopper-v4"]
+# Command:
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Hopper.pkl \
+	--env_name Hopper-v4 --exp_name bc_Hopper --n_iter 1 \
+	--expert_data cs285/expert_data/expert_data_Hopper-v4.pkl \
+	--video_log_freq -1
+
+# Output:
+Eval_AverageReturn : 1221.360595703125
+Eval_StdReturn : 160.6265869140625
+Eval_MaxReturn : 1437.8118896484375
+Eval_MinReturn : 1053.4443359375
+Eval_AverageEpLen : 352.0
+Train_AverageReturn : 3717.5129936182307
+Train_StdReturn : 0.3530361779417035
+Train_MaxReturn : 3717.8660297961724
+Train_MinReturn : 3717.159957440289
+Train_AverageEpLen : 1000.0
+Training Loss : 0.010719629004597664
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 0.7567005157470703
+Initial_DataCollection_AverageReturn : 3717.5129936182307
+
+# 加一个看看 
+# --eval_batch_size 5000 \
+# Command:
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Hopper.pkl \
+	--env_name Hopper-v4 --exp_name bc_Hopper --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Hopper-v4.pkl \
+	--video_log_freq -1
+
+# Output:
+Eval_AverageReturn : 1155.44775390625
+Eval_StdReturn : 226.80575561523438
+Eval_MaxReturn : 1855.372314453125
+Eval_MinReturn : 968.1389770507812
+Eval_AverageEpLen : 335.93333333333334
+Train_AverageReturn : 3717.5129936182307
+Train_StdReturn : 0.3530361779417035
+Train_MaxReturn : 3717.8660297961724
+Train_MinReturn : 3717.159957440289
+Train_AverageEpLen : 1000.0
+Training Loss : 0.010719629004597664
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 1.2960014343261719
+Initial_DataCollection_AverageReturn : 3717.5129936182307
+
+=========================================================================== hw1 3.2 ===========================================================================
+
+# 调整变量：训练步骤的数量    --num_agent_train_steps_per_iter
+# 调整变量：提供的专家数据量  --train_batch_size
+# 控制任务：Ant-v4
+# Base Command:
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1
+
+# 调整变量：训练步骤的数量（default 1000）    --num_agent_train_steps_per_iter 1500
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1 \
+    --num_agent_train_steps_per_iter 1500
+
+# Output:
+Eval_AverageReturn : 4012.554443359375
+Eval_StdReturn : 1697.1243896484375
+Eval_MaxReturn : 4867.3115234375
+Eval_MinReturn : 220.6395263671875
+Eval_AverageEpLen : 845.0
+Train_AverageReturn : 4681.891673935816
+Train_StdReturn : 30.70862278765526
+Train_MaxReturn : 4712.600296723471
+Train_MinReturn : 4651.18305114816
+Train_AverageEpLen : 1000.0
+Training Loss : 0.0006358629325404763
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 1.887556552886963
+Initial_DataCollection_AverageReturn : 4681.891673935816
+
+# 调整变量：训练步骤的数量（default 1000）    --num_agent_train_steps_per_iter 2000
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1 \
+    --num_agent_train_steps_per_iter 2000
+
+# Output:
+Eval_AverageReturn : 4256.30859375
+Eval_StdReturn : 654.8868408203125
+Eval_MaxReturn : 4682.94482421875
+Eval_MinReturn : 2809.08349609375
+Eval_AverageEpLen : 936.8333333333334
+Train_AverageReturn : 4681.891673935816
+Train_StdReturn : 30.70862278765526
+Train_MaxReturn : 4712.600296723471
+Train_MinReturn : 4651.18305114816
+Train_AverageEpLen : 1000.0
+Training Loss : 0.00043946816003881395
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 2.173246145248413
+Initial_DataCollection_AverageReturn : 4681.891673935816
+
+# 调整变量：训练步骤的数量（default 1000）    --num_agent_train_steps_per_iter 3000
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1 \
+    --num_agent_train_steps_per_iter 3000
+
+# Output:
+Eval_AverageReturn : 3859.024658203125
+Eval_StdReturn : 1571.8292236328125
+Eval_MaxReturn : 4760.3798828125
+Eval_MinReturn : 352.5892028808594
+Eval_AverageEpLen : 837.3333333333334
+Train_AverageReturn : 4681.891673935816
+Train_StdReturn : 30.70862278765526
+Train_MaxReturn : 4712.600296723471
+Train_MinReturn : 4651.18305114816
+Train_AverageEpLen : 1000.0
+Training Loss : 0.00046310588368214667
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 2.421417713165283
+Initial_DataCollection_AverageReturn : 4681.891673935816
+
+# 调整变量：训练步骤的数量（default 1000）    --num_agent_train_steps_per_iter 4000
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1 \
+    --num_agent_train_steps_per_iter 4000
+
+# Output:
+Eval_AverageReturn : 4643.39892578125
+Eval_StdReturn : 49.75117874145508
+Eval_MaxReturn : 4699.318359375
+Eval_MinReturn : 4550.40625
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 4681.891673935816
+Train_StdReturn : 30.70862278765526
+Train_MaxReturn : 4712.600296723471
+Train_MinReturn : 4651.18305114816
+Train_AverageEpLen : 1000.0
+Training Loss : 0.0002940220001619309
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 2.689910650253296
+Initial_DataCollection_AverageReturn : 4681.891673935816
+
+# 调整变量：训练步骤的数量（default 1000）    --num_agent_train_steps_per_iter 5000
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1 \
+    --num_agent_train_steps_per_iter 5000
+
+# Output:
+Eval_AverageReturn : 4633.28759765625
+Eval_StdReturn : 56.61779022216797
+Eval_MaxReturn : 4706.68115234375
+Eval_MinReturn : 4533.6640625
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 4681.891673935816
+Train_StdReturn : 30.70862278765526
+Train_MaxReturn : 4712.600296723471
+Train_MinReturn : 4651.18305114816
+Train_AverageEpLen : 1000.0
+Training Loss : 0.000255397375440225
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 3.123438596725464
+Initial_DataCollection_AverageReturn : 4681.891673935816
+
+# 调整变量：训练步骤的数量（default 1000）    --num_agent_train_steps_per_iter 6000
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1 \
+    --num_agent_train_steps_per_iter 6000
+
+# Output:
+Eval_AverageReturn : 4679.0244140625
+Eval_StdReturn : 72.62195587158203
+Eval_MaxReturn : 4778.73876953125
+Eval_MinReturn : 4608.6337890625
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 4681.891673935816
+Train_StdReturn : 30.70862278765526
+Train_MaxReturn : 4712.600296723471
+Train_MinReturn : 4651.18305114816
+Train_AverageEpLen : 1000.0
+Training Loss : 0.0003287993313279003
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 3.377235174179077
+Initial_DataCollection_AverageReturn : 4681.891673935816
+
+# 调整变量：训练步骤的数量（default 1000）    --num_agent_train_steps_per_iter 7000
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1 \
+    --num_agent_train_steps_per_iter 7000
+
+# Output:
+Eval_AverageReturn : 4702.88623046875
+Eval_StdReturn : 106.09033203125
+Eval_MaxReturn : 4901.53564453125
+Eval_MinReturn : 4597.4296875
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 4681.891673935816
+Train_StdReturn : 30.70862278765526
+Train_MaxReturn : 4712.600296723471
+Train_MinReturn : 4651.18305114816
+Train_AverageEpLen : 1000.0
+Training Loss : 0.0002477194939274341
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 3.6580731868743896
+Initial_DataCollection_AverageReturn : 4681.891673935816
+
+# 调整变量：训练步骤的数量（default 1000）    --num_agent_train_steps_per_iter 8000
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1 \
+    --num_agent_train_steps_per_iter 8000
+
+# Output:
+Eval_AverageReturn : 4694.71630859375
+Eval_StdReturn : 57.48613357543945
+Eval_MaxReturn : 4771.10546875
+Eval_MinReturn : 4629.42138671875
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 4681.891673935816
+Train_StdReturn : 30.70862278765526
+Train_MaxReturn : 4712.600296723471
+Train_MinReturn : 4651.18305114816
+Train_AverageEpLen : 1000.0
+Training Loss : 0.0003062456089537591
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 4.071307897567749
+Initial_DataCollection_AverageReturn : 4681.891673935816
+
+# 调整变量：训练步骤的数量（default 1000）    --num_agent_train_steps_per_iter 10000
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1 \
+    --num_agent_train_steps_per_iter 10000
+
+# Output:
+Eval_AverageReturn : 4621.4228515625
+Eval_StdReturn : 117.93580627441406
+Eval_MaxReturn : 4747.30859375
+Eval_MinReturn : 4399.7080078125
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 4681.891673935816
+Train_StdReturn : 30.70862278765526
+Train_MaxReturn : 4712.600296723471
+Train_MinReturn : 4651.18305114816
+Train_AverageEpLen : 1000.0
+Training Loss : 0.0003009009233210236
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 4.73228907585144
+Initial_DataCollection_AverageReturn : 4681.891673935816
+
+# 调整变量：提供的专家数据量（100）  --train_batch_size 150
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1 \
+    --train_batch_size 150
+
+# Output:
+Eval_AverageReturn : 4683.34912109375
+Eval_StdReturn : 95.0162353515625
+Eval_MaxReturn : 4795.93017578125
+Eval_MinReturn : 4542.541015625
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 4681.891673935816
+Train_StdReturn : 30.70862278765526
+Train_MaxReturn : 4712.600296723471
+Train_MinReturn : 4651.18305114816
+Train_AverageEpLen : 1000.0
+Training Loss : 0.0007991443271748722
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 1.6728885173797607
+Initial_DataCollection_AverageReturn : 4681.891673935816
+
+
+# 调整变量：提供的专家数据量（100）  --train_batch_size 200
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1 \
+    --train_batch_size 200
+
+# Output:
+Eval_AverageReturn : 4639.50244140625
+Eval_StdReturn : 64.5690689086914
+Eval_MaxReturn : 4714.4443359375
+Eval_MinReturn : 4526.11181640625
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 4681.891673935816
+Train_StdReturn : 30.70862278765526
+Train_MaxReturn : 4712.600296723471
+Train_MinReturn : 4651.18305114816
+Train_AverageEpLen : 1000.0
+Training Loss : 0.0007303949096240103
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 1.7181894779205322
+Initial_DataCollection_AverageReturn : 4681.891673935816
+
+
+# 调整变量：提供的专家数据量（100）  --train_batch_size 300
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1 \
+    --train_batch_size 300
+
+# Output:
+Eval_AverageReturn : 4554.89111328125
+Eval_StdReturn : 86.9668197631836
+Eval_MaxReturn : 4688.25390625
+Eval_MinReturn : 4452.404296875
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 4681.891673935816
+Train_StdReturn : 30.70862278765526
+Train_MaxReturn : 4712.600296723471
+Train_MinReturn : 4651.18305114816
+Train_AverageEpLen : 1000.0
+Training Loss : 0.0006811950588598847
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 1.6801445484161377
+Initial_DataCollection_AverageReturn : 4681.891673935816
+
+# 调整变量：提供的专家数据量（100）  --train_batch_size 500
+python cs285/scripts/run_hw1.py \
+	--expert_policy_file cs285/policies/experts/Ant.pkl \
+	--env_name Ant-v4 --exp_name bc_ant --n_iter 1 --eval_batch_size 5000 \
+	--expert_data cs285/expert_data/expert_data_Ant-v4.pkl \
+	--video_log_freq -1 \
+    --train_batch_size 500
+
+# Output:
+Eval_AverageReturn : 4575.45751953125
+Eval_StdReturn : 73.2354965209961
+Eval_MaxReturn : 4625.009765625
+Eval_MinReturn : 4432.115234375
+Eval_AverageEpLen : 1000.0
+Train_AverageReturn : 4681.891673935816
+Train_StdReturn : 30.70862278765526
+Train_MaxReturn : 4712.600296723471
+Train_MinReturn : 4651.18305114816
+Train_AverageEpLen : 1000.0
+Training Loss : 0.0008314981823787093
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 1.7067265510559082
+Initial_DataCollection_AverageReturn : 4681.891673935816
