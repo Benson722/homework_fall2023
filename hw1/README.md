@@ -1,3 +1,5 @@
+## 结果在data和output_Record里
+
 ## Setup
 
 You can run this code on your own machine or on Google Colab. 
