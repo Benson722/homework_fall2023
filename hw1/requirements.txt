@@ -6,8 +6,9 @@ matplotlib==3.5.3
 ipython==7.34.0
 moviepy==1.0.3
 pyvirtualdisplay==3.0
-torch==1.12.1
-opencv-python==4.6.0.66
+torch==2.0.0
+opencv-python==4.7.0.72  # 建议使用的opencv版本，和numpy 1.24.x 兼容
+numpy==1.24.4  # 与 opencv-python 4.7.0.72 兼容的 numpy 版本
 ipdb==0.13.9
 swig==4.0.2
 box2d-py==2.3.8
